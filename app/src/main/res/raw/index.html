@@ -1,60 +1,85 @@
+
 <!DOCTYPE html>
 <html>
+
 <head>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script>
-$(document).ready(function(){
+        $(document).ready(function () {
 
-var svgUrl = 'https://test-flexwhere.flexwhere.nl/flexwhere/api/map/occupation/2/Floor-MOB.svg';
-        $.get(svgUrl,(data) => {
+            var svgUrl = 'https://test-flexwhere.flexwhere.nl/flexwhere/api/map/occupation/2/Floor-MOB.svg';
+            $.get(svgUrl, (data) => {
 
-            console.log(data);
+                console.log(data);
+
             JSInterface.dismissDilog();
 
+                $(".svgResult").html(data).contents().find('.fwsvg-state-occupied,.fwsvg-state-vacant')
+                    .attr('type', 'button')
+                    .attr('data-toggle', 'popover')
+                    .attr('tabindex', '0')
+                    .attr('data-placement', 'bottom')
+                    .attr('data-container', 'body')
+                    .attr('data-trigger', 'focus click')
+                    .attr('data-html', 'true')
+                    .on('click', function ($event) {
 
-                    		$(".svgResult").html(data).contents().find('.fwsvg-state-occupied,.fwsvg-state-vacant')
-          .attr('type', 'button')
-          .attr('data-toggle', 'popover')
-          .attr('tabindex', '0')
-          .attr('data-placement', 'bottom')
-          .attr('data-container', 'body')
-          .attr('data-trigger', 'focus click')
-          .attr('data-html', 'true')
-            .on('click', function($event) {
+                        $event.preventDefault();
 
-                $event.preventDefault();
-
-                var svg = $(this).attr('id');
-
-JSInterface.showToastId($(this).attr('id'));
+                        var svg = $(this).attr('id');
+                        alert($(this).attr('id'));
 
 
 
 
-$(".svgResult").append(
-        $('<div class="marker"></div>').css({
-          position: 'absolute',
-          top: event.pageY + 'px',
-          left: event.pageX + 'px',
-          width: '10px',
-          height: '10px',
-          background: '#000000'
-        })
-      );
+                        $(".svgResult").append(
+                            $('<div class="marker"></div>').css({
+                                position: 'absolute',
+                                top: event.pageY + 'px',
+                                left: event.pageX + 'px',
+                                width: '10px',
+                                height: '10px',
+                                background: '#000000'
+                            })
+                        );
 
 
-            })
-        },"text")
+                    })
 
 
-});
+                let ids = [{
+                    id: 'Meeting1',
+                    x: 150,
+                    y: 40
+                }, {
+                    id: 'Meeting1',
+                    x: 350,
+                    y: 40
+                }];
 
+                for (let i = 0; i < ids.length; i++) {
+                    console.log(`#${ids[i].id}`)
+                    $(".svgResult").append(
+                        $('<div class="marker"></div>').css({
+                            position: 'absolute',
+                            top: ids[i].y + 'px',
+                            left: ids[i].x + 'px',
+                            width: '10px',
+                            height: '10px',
+                            background: '#000000'
+                        })
+                    );
+                }
 
+            }, "text");
 
+        });
     </script>
 </head>
+
 <body>
 <div id="svg" class="svgResult"></div>
 
 </body>
+
 </html>
